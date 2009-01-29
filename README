@@ -4,7 +4,7 @@ Fetchr
 Installation
 ------------
   
-  curl http://github.com/defunkt/gist/tree/master%2Fgist.rb?raw=true > gist &&
+  http://github.com/tvon/fetchr/blob/master/fetchr?raw=true &&
   chmod 755 fetchr &&
   sudo mv fetchr /usr/local/bin/fetchr
   
