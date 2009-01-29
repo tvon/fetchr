@@ -1,0 +1,14 @@
+Fetchr
+======
+
+Installation
+------------
+  
+  curl http://github.com/defunkt/gist/tree/master%2Fgist.rb?raw=true > gist &&
+  chmod 755 fetchr &&
+  sudo mv fetchr /usr/local/bin/fetchr
+  
+Usage
+-----
+
+  fetchr --download --photoset XXXXXXXX
