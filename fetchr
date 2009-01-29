@@ -1,0 +1,75 @@
+#!/usr/bin/env ruby
+#
+# fetchr --photoset 72157604432587188 --size original --download
+#
+
+require 'rubygems'
+require 'flickraw'
+require 'optparse'
+require 'open-uri'
+
+options = {}
+OptionParser.new do |opts|
+  opts.banner = "Usage: fetchr [options]"
+  
+  options[:size] = "Small"
+  
+  opts.on("-v", "--[no-]verbose", "Run verbosely") do |v|
+    options[:verbose] = v
+  end
+  opts.on("-s", "--photoset [SETID]", "Specify photoset") do |v|
+    options[:photoset] = v
+  end
+  opts.on("-d", "--download", "Download specified photo(s)") do |v|
+    options[:download] = v
+  end
+  opts.on("-z", "--size [SIZE]", "Specify size to download") do |v|
+    options[:size] = v
+  end
+  opts.on("-l", "--list", "List photos in photoset") do |v|
+    options[:list] = v
+  end
+  opts.on("-i", "--info", "Give information on specified photo[set]") do |v|
+    options[:info] = v
+  end
+end.parse!
+
+
+module Fetchr
+  extend self
+  
+  def download(photo, size)
+    sizes = flickr.photos.getSizes :photo_id => photo.id
+    
+    p = sizes.find { |s| s.label == size }
+    
+    url = p.source
+    file = File.basename url
+        
+    open url do |remote|
+      open(file, 'wb') { |local| local << remote.read }
+    end
+  end
+  
+end
+
+if options[:photoset]
+  if options[:info]
+    info = flickr.photosets.getInfo :photoset_id => options[:photoset]
+    p info.title + "\n"
+    p info.description + "\n"
+  end
+  
+  if options[:list]
+    photoset = flickr.photosets.getPhotos :photoset_id => options[:photoset]
+    photoset.photo.each { |photo| print photo.title + "\n" } 
+  end
+  
+  if options[:download]
+    photoset = flickr.photosets.getPhotos :photoset_id => options[:photoset]
+    photoset.photo.each do |photo|
+      Fetchr.download(photo, options[:size])
+    end
+    
+  end
+end
