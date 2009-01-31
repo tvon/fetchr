@@ -10,5 +10,12 @@ Installation
   
 Usage
 -----
+  
+Using 72157612744217926 as a sample photoset (not my set, but it only has 3 photos which works well)
 
-  fetchr --download --photoset XXXXXXXX
+  fetchr --info --photoset 72157612744217926
+  fetchr --list --photoset 72157612744217926
+  fetchr --download --photoset 72157612744217926 --size small
+  fetchr --download --photoset 72157612744217926
+
+  
