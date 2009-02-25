@@ -1,13 +1,14 @@
 #!/usr/bin/env ruby
 #
-# fetchr --photoset 72157604432587188 --size original --download
+# fetchr --photoset 72157612744217926 --size original --download
 #
 
 require 'rubygems'
 require 'flickraw'
 require 'optparse'
 require 'open-uri'
-require 'progressbar'
+
+require 'lib/progressbar'
 
 options = {}
 OptionParser.new do |opts|
@@ -42,7 +43,7 @@ module Fetchr
   def download(photo, size)
     sizes = flickr.photos.getSizes :photo_id => photo.id
     
-    p = sizes.find { |s| s.label == size }
+    p = sizes.find { |s| s.label.downcase == size }
     
     url = p.source
     file = File.basename url
